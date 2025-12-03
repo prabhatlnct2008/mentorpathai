@@ -14,7 +14,7 @@ export interface LeadResponse {
 }
 
 export async function submitLead(data: LeadData): Promise<LeadResponse> {
-  return api.post<LeadResponse>('/leads', {
+  return api.post<LeadResponse>('/v1/leads', {
     ...data,
     source: data.source || 'landing_page',
     timestamp: new Date().toISOString()

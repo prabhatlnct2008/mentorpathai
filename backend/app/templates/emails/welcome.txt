@@ -1,0 +1,37 @@
+MentorPath AI - Your Personalized Mentorship Journey
+====================================================
+
+Welcome to Your Journey!
+
+Hi there,
+
+Thank you for joining MentorPath AI! We're excited to have you as part of our community.
+
+Your Path: {{ persona }}
+
+Based on your interest as a {{ persona }}, we've curated a personalized mentorship experience designed specifically for your goals.
+
+What's Next?
+------------
+
+📚 Personalized Learning Path
+Get access to curated resources, exercises, and milestones tailored to your {{ persona }} journey.
+
+🤝 Expert Mentorship
+Connect with experienced mentors who have walked the path you're on and can provide guidance.
+
+👥 Community Support
+Join a community of like-minded individuals on similar journeys, share experiences, and grow together.
+
+📈 Track Your Progress
+Monitor your growth with our progress tracking system and celebrate your achievements along the way.
+
+We'll be sending you more information about how to get started in the coming days. In the meantime, feel free to explore what MentorPath AI has to offer.
+
+Visit us at: https://mentorpathai.com
+
+Questions? Just reply to this email - we'd love to hear from you!
+
+---
+© 2024 MentorPath AI. All rights reserved.
+You're receiving this email because you signed up for MentorPath AI at {{ email }}.

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { chatSteps, PersonaType } from '../chatSteps'
 
 export interface ChatBubble {
@@ -11,17 +11,45 @@ export interface ChatBubble {
   outcomes?: { id: string; title: string; description: string }[]
 }
 
+// Steps that WAIT for user interaction (don't auto-progress after showing)
+const WAIT_FOR_INPUT_STEPS = new Set([
+  'initial_interest',  // Wait for user to pick interested/exploring
+  'persona_select',    // Wait for user to pick persona
+  'email_capture',     // Wait for user to submit email
+  'how_it_works_prompt', // Wait for yes/no
+  'faq_prompt'         // Wait for view_faq/done
+])
+
 export default function useChatFlow() {
-  const [currentStepIndex, setCurrentStepIndex] = useState(0)
   const [visibleBubbles, setVisibleBubbles] = useState<ChatBubble[]>([])
   const [selectedPersona, setSelectedPersona] = useState<PersonaType | null>(null)
   const [initialInterest, setInitialInterest] = useState<string | null>(null)
   const [email, setEmail] = useState<string | null>(null)
   const [isTyping, setIsTyping] = useState(false)
 
-  const addBubble = useCallback((step: typeof chatSteps[number]) => {
-    const message = step.getDynamicMessage && selectedPersona
-      ? step.getDynamicMessage(selectedPersona)
+  // Use refs to prevent issues with stale closures
+  const currentStepIndexRef = useRef(0)
+  const isInitializedRef = useRef(false)
+  const selectedPersonaRef = useRef<PersonaType | null>(null)
+  const isProcessingRef = useRef(false)
+
+  // Keep persona ref in sync
+  useEffect(() => {
+    selectedPersonaRef.current = selectedPersona
+  }, [selectedPersona])
+
+  const showStep = useCallback(async (stepIndex: number): Promise<boolean> => {
+    const step = chatSteps[stepIndex]
+    if (!step) return false
+
+    // Show typing indicator
+    setIsTyping(true)
+    await new Promise(resolve => setTimeout(resolve, 700 + Math.random() * 400))
+    setIsTyping(false)
+
+    // Build the bubble
+    const message = step.getDynamicMessage && selectedPersonaRef.current
+      ? step.getDynamicMessage(selectedPersonaRef.current)
       : step.message
 
     const bubble: ChatBubble = {
@@ -35,61 +63,75 @@ export default function useChatFlow() {
     }
 
     setVisibleBubbles(prev => [...prev, bubble])
-  }, [selectedPersona])
 
-  const progressToNextStep = useCallback(async () => {
-    if (currentStepIndex >= chatSteps.length) return
+    // Return whether we should wait for user input
+    return WAIT_FOR_INPUT_STEPS.has(step.id)
+  }, [])
 
-    setIsTyping(true)
+  const progressChat = useCallback(async () => {
+    // Prevent concurrent progression
+    if (isProcessingRef.current) return
+    isProcessingRef.current = true
 
-    // Simulate typing delay
-    await new Promise(resolve => setTimeout(resolve, 800))
+    try {
+      while (currentStepIndexRef.current < chatSteps.length) {
+        const stepIndex = currentStepIndexRef.current
+        const shouldWait = await showStep(stepIndex)
 
-    setIsTyping(false)
+        currentStepIndexRef.current = stepIndex + 1
 
-    const nextStep = chatSteps[currentStepIndex]
-    addBubble(nextStep)
+        if (shouldWait) {
+          // Stop and wait for user interaction
+          break
+        }
 
-    setCurrentStepIndex(prev => prev + 1)
-  }, [currentStepIndex, addBubble])
+        // Small delay before showing next auto-message
+        await new Promise(resolve => setTimeout(resolve, 300))
+      }
+    } finally {
+      isProcessingRef.current = false
+    }
+  }, [showStep])
 
   const handleOptionSelect = useCallback((stepId: string, optionId: string) => {
     if (stepId === 'initial_interest') {
       setInitialInterest(optionId)
-      progressToNextStep()
-    } else if (stepId === 'how_it_works_prompt') {
-      if (optionId === 'yes') {
-        progressToNextStep()
-      } else {
-        // End conversation
-        return
-      }
-    } else if (stepId === 'faq_prompt') {
-      if (optionId === 'view_faq') {
-        // This will be handled in the landing page to scroll to FAQ
-        return
-      } else {
-        // End conversation
-        return
-      }
-    } else {
-      progressToNextStep()
     }
-  }, [progressToNextStep])
+
+    // For "no" options on optional prompts, don't progress further
+    if (stepId === 'how_it_works_prompt' && optionId === 'no') {
+      return
+    }
+    if (stepId === 'faq_prompt') {
+      // Both options end the chat - view_faq scrolls to FAQ section
+      return
+    }
+
+    // Continue the chat
+    progressChat()
+  }, [progressChat])
 
   const handlePersonaSelect = useCallback((personaId: string) => {
-    setSelectedPersona(personaId as PersonaType)
-    progressToNextStep()
-  }, [progressToNextStep])
+    const persona = personaId as PersonaType
+    setSelectedPersona(persona)
+    selectedPersonaRef.current = persona
+
+    // Continue to empathy message and beyond
+    progressChat()
+  }, [progressChat])
 
   const handleEmailSubmit = useCallback((emailValue: string) => {
     setEmail(emailValue)
-    progressToNextStep()
-  }, [progressToNextStep])
+    progressChat()
+  }, [progressChat])
 
   const startChat = useCallback(() => {
-    progressToNextStep()
-  }, [progressToNextStep])
+    // Only initialize once
+    if (isInitializedRef.current) return
+    isInitializedRef.current = true
+
+    progressChat()
+  }, [progressChat])
 
   return {
     visibleBubbles,
@@ -100,7 +142,6 @@ export default function useChatFlow() {
     handleOptionSelect,
     handlePersonaSelect,
     handleEmailSubmit,
-    startChat,
-    progressToNextStep
+    startChat
   }
 }

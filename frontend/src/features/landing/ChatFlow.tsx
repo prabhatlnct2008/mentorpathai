@@ -26,9 +26,10 @@ export default function ChatFlow({ onEmailSubmit, emailLoading, emailError }: Ch
   } = useChatFlow()
 
   useEffect(() => {
-    // Start the chat flow when component mounts
+    // Start the chat flow when component mounts (only once)
     startChat()
-  }, [startChat])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleEmailFormSubmit = async (emailValue: string) => {
     if (onEmailSubmit) {

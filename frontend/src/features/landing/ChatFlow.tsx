@@ -19,7 +19,6 @@ export default function ChatFlow({ onEmailSubmit, emailLoading, emailError }: Ch
     visibleBubbles,
     isTyping,
     selectedPersona,
-    email,
     handleOptionSelect,
     handlePersonaSelect,
     handleEmailSubmit,

@@ -5,7 +5,17 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # Get DATABASE_URL from environment or use default SQLite database
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./mentorpath.db")
+# For Vercel serverless, SQLite must be in /tmp (ephemeral storage)
+# For production, use a real database (Postgres, etc.)
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+
+if os.getenv("DATABASE_URL"):
+    DATABASE_URL = os.getenv("DATABASE_URL")
+elif os.getenv("VERCEL"):
+    # Vercel serverless - use /tmp for SQLite (ephemeral, for demo only)
+    DATABASE_URL = "sqlite:////tmp/mentorpath.db"
+else:
+    DATABASE_URL = "sqlite:///./mentorpath.db"
 
 # Create SQLAlchemy engine
 engine = create_engine(

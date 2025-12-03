@@ -23,7 +23,8 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # CORS (comma-separated origins)
-    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
+    # Include Vercel preview URLs and localhost for development
+    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000,https://*.vercel.app"
 
     @property
     def cors_origins_list(self) -> List[str]:

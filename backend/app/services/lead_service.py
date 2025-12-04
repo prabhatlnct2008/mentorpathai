@@ -20,7 +20,13 @@ def create_lead(db: Session, lead_data: LeadCreate) -> Lead:
         email=lead_data.email,
         persona=lead_data.persona,
         source=lead_data.source,
-        initial_interest=lead_data.initial_interest
+        initial_interest=lead_data.initial_interest,
+        # Agent Systems Lab fields
+        name=lead_data.name,
+        role=lead_data.role,
+        company=lead_data.company,
+        agent_type=lead_data.agent_type,
+        timeframe=lead_data.timeframe
     )
 
     # Add to database

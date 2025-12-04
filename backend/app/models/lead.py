@@ -14,6 +14,14 @@ class Lead(Base):
     persona = Column(String, nullable=False)
     source = Column(String, default="landing_chat", nullable=False)
     initial_interest = Column(String, nullable=True)
+
+    # Agent Systems Lab fields
+    name = Column(String(255), nullable=True)
+    role = Column(String(100), nullable=True)
+    company = Column(String(255), nullable=True)
+    agent_type = Column(String(100), nullable=True)
+    timeframe = Column(String(50), nullable=True)
+
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
 
@@ -50,3 +58,13 @@ class EmailLog(Base):
 
     # Relationship to lead
     lead = relationship("Lead", back_populates="email_logs")
+
+
+class NewsletterSubscriber(Base):
+    """Newsletter subscriber model for email subscriptions."""
+    __tablename__ = "newsletter_subscribers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    source = Column(String(50), default="agent_systems_lab_syllabus", nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

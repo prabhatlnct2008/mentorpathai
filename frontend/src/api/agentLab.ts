@@ -8,6 +8,7 @@ export interface AgentLabLeadData {
   agent_type: string
   timeframe: string
   source: string
+  persona?: string
 }
 
 export interface NewsletterData {

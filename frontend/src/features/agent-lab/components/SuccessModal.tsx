@@ -35,11 +35,11 @@ export default function SuccessModal({ isOpen, onClose, type }: SuccessModalProp
   const content = {
     application: {
       headline: 'Application received!',
-      message: "We'll review your application and get back to you within 2-3 business days."
+      message: "Thanks for your interest! We'll review your application and get in touch with you soon."
     },
     newsletter: {
       headline: "You're on the list!",
-      message: "Check your inbox – we've sent you the full 6-week curriculum breakdown."
+      message: "Thanks for subscribing! We'll be in touch with updates about the program and GenAI insights."
     }
   }
 

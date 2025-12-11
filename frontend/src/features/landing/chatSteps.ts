@@ -91,7 +91,7 @@ export const chatSteps: ChatStep[] = [
   {
     id: 'success',
     type: 'success',
-    message: "Awesome! Check your email in the next 5 minutes. I just sent you:\n\n✓ Free intro lesson\n✓ Program curriculum\n✓ Early access pricing\n\nP.S. If you don't see it, check spam!"
+    message: "Thanks for your interest!\n\nWe'll get in touch with you soon to discuss how we can help you on your GenAI journey.\n\nIn the meantime, feel free to explore more about what we offer."
   },
   {
     id: 'how_it_works_prompt',

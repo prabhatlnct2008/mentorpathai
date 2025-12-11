@@ -5,7 +5,8 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.lead import LeadCreate, LeadResponse
 from app.services.lead_service import create_lead, get_lead_by_email
-from app.services.email_service import send_welcome_email, schedule_followup_emails
+# Email sending disabled for now
+# from app.services.email_service import send_welcome_email, schedule_followup_emails
 from app.logging_config import get_logger
 
 logger = get_logger("leads")
@@ -19,7 +20,7 @@ async def create_new_lead(
     db: Session = Depends(get_db)
 ):
     """
-    Create a new lead and trigger welcome email.
+    Create a new lead.
 
     Args:
         lead_data: Lead creation data
@@ -47,15 +48,13 @@ async def create_new_lead(
         lead = create_lead(db, lead_data)
         logger.info(f"Lead created successfully: {lead.email} (ID: {lead.id})")
 
-        # Send welcome email asynchronously
-        try:
-            await send_welcome_email(db, lead)
-            # Schedule follow-up emails
-            schedule_followup_emails(db, lead)
-            logger.info(f"Welcome email sent to: {lead.email}")
-        except Exception as e:
-            # Log error but don't fail the request
-            logger.error(f"Error sending welcome email to {lead.email}: {e}")
+        # Email sending disabled for now
+        # try:
+        #     await send_welcome_email(db, lead)
+        #     schedule_followup_emails(db, lead)
+        #     logger.info(f"Welcome email sent to: {lead.email}")
+        # except Exception as e:
+        #     logger.error(f"Error sending welcome email to {lead.email}: {e}")
 
         return lead
     except HTTPException:

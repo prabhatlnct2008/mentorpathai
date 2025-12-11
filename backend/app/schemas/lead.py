@@ -7,7 +7,7 @@ from pydantic import BaseModel, EmailStr, ConfigDict
 class LeadCreate(BaseModel):
     """Schema for creating a new lead."""
     email: EmailStr
-    persona: str
+    persona: Optional[str] = "unknown"
     initial_interest: Optional[str] = None
     source: str = "landing_chat"
 

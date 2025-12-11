@@ -190,8 +190,7 @@ async def get_dashboard_stats(
 
     # Leads by source
     leads_by_source = {}
-    source_counts = db.query(Lead.source, db.query(Lead).filter(Lead.source == Lead.source).count()).group_by(Lead.source).all()
-    for source, count in db.query(Lead.source).distinct().all():
+    for source, in db.query(Lead.source).distinct().all():
         leads_by_source[source] = db.query(Lead).filter(Lead.source == source).count()
 
     # Leads by persona

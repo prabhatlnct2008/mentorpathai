@@ -6,6 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.router import api_router
 from app.config import settings
 from app.database import engine, Base
+# Import all models to register them with Base before create_all
+from app.models import Lead, EmailLog, EmailTemplate, NewsletterSubscriber, AdminUser
 
 
 @asynccontextmanager

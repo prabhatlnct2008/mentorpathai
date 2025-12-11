@@ -15,6 +15,9 @@ from app.services.auth_service import (
 )
 from app.models.admin import AdminUser
 from app.config import settings
+from app.logging_config import get_logger
+
+logger = get_logger("auth")
 
 router = APIRouter(prefix="/auth")
 security = HTTPBearer()
@@ -56,29 +59,40 @@ def get_current_admin(
 @router.post("/login", response_model=TokenResponse)
 async def login(request: LoginRequest, db: Session = Depends(get_db)):
     """Login endpoint for admin users."""
-    # Ensure default admin exists
-    ensure_default_admin(db)
+    logger.info(f"Login attempt for user: {request.username}")
 
-    admin = authenticate_admin(db, request.username, request.password)
-    if not admin:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username or password",
-            headers={"WWW-Authenticate": "Bearer"},
+    try:
+        # Ensure default admin exists
+        ensure_default_admin(db)
+
+        admin = authenticate_admin(db, request.username, request.password)
+        if not admin:
+            logger.warning(f"Failed login attempt for user: {request.username}")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid username or password",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
+        # Update last login
+        admin.last_login = datetime.utcnow()
+        db.commit()
+
+        # Create access token
+        access_token = create_access_token(data={"sub": admin.username})
+
+        logger.info(f"Successful login for user: {request.username}")
+
+        return TokenResponse(
+            access_token=access_token,
+            token_type="bearer",
+            expires_in=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60  # in seconds
         )
-
-    # Update last login
-    admin.last_login = datetime.utcnow()
-    db.commit()
-
-    # Create access token
-    access_token = create_access_token(data={"sub": admin.username})
-
-    return TokenResponse(
-        access_token=access_token,
-        token_type="bearer",
-        expires_in=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60  # in seconds
-    )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Login error for user {request.username}: {e}")
+        raise
 
 
 @router.get("/me", response_model=AdminResponse)

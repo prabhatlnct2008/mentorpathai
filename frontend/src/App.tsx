@@ -4,6 +4,7 @@ import AgentLabPage from './features/agent-lab/AgentLabPage'
 import AdminLoginPage from './features/admin/AdminLoginPage'
 import AdminDashboardPage from './features/admin/AdminDashboardPage'
 import ProtectedRoute from './features/admin/ProtectedRoute'
+import PrivacyPolicyPage from './features/legal/PrivacyPolicyPage'
 import { AuthProvider } from './contexts/AuthContext'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/agent-systems-lab" element={<AgentLabPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/admin" element={<AdminLoginPage />} />
         <Route
           path="/admin/dashboard"

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Badge from '../../components/ui/Badge'
 import ChatFlow from './ChatFlow'
 import SEOFallback from './SEOFallback'
@@ -66,8 +67,11 @@ export default function LandingPage() {
         </div>
 
         {/* Footer */}
-        <footer className="mt-24 pb-12 text-center text-text-muted text-sm">
-          <p>© 2025 MentorPath AI. All rights reserved.</p>
+        <footer className="mt-24 pb-12 text-center text-text-muted text-sm space-y-2">
+          <p>&copy; {new Date().getFullYear()} MentorPath AI. All rights reserved.</p>
+          <Link to="/privacy" className="text-primary hover:text-primary/80 transition-colors">
+            Privacy Policy
+          </Link>
         </footer>
       </div>
 

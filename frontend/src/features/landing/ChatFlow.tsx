@@ -33,9 +33,13 @@ export default function ChatFlow({ onEmailSubmit, emailLoading, emailError }: Ch
 
   const handleEmailFormSubmit = async (emailValue: string) => {
     if (onEmailSubmit) {
+      // When external handler is provided, it handles success (shows modal)
+      // Don't progress to inline success bubble
       await onEmailSubmit(emailValue, selectedPersona)
+    } else {
+      // Only show inline success bubble when no external handler
+      handleEmailSubmit(emailValue)
     }
-    handleEmailSubmit(emailValue)
   }
 
   return (

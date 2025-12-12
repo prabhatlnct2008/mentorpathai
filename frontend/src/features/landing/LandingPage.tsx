@@ -1,10 +1,13 @@
+import { useState } from 'react'
 import Badge from '../../components/ui/Badge'
 import ChatFlow from './ChatFlow'
 import SEOFallback from './SEOFallback'
+import SuccessModal from '../agent-lab/components/SuccessModal'
 import useLeadSubmit from '../../hooks/useLeadSubmit'
 
 export default function LandingPage() {
   const { submit, loading, error } = useLeadSubmit()
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false)
 
   const handleEmailSubmit = async (email: string, persona: string | null = null) => {
     await submit({
@@ -12,6 +15,8 @@ export default function LandingPage() {
       persona,
       source: 'landing_page'
     })
+    // Show success popup after successful submission
+    setIsSuccessOpen(true)
   }
 
   return (
@@ -65,6 +70,13 @@ export default function LandingPage() {
           <p>© 2025 MentorPath AI. All rights reserved.</p>
         </footer>
       </div>
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={isSuccessOpen}
+        onClose={() => setIsSuccessOpen(false)}
+        type="landing"
+      />
     </div>
   )
 }

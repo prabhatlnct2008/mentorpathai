@@ -3,10 +3,17 @@ import { useEffect } from 'react'
 interface SuccessModalProps {
   isOpen: boolean
   onClose: () => void
-  type: 'application' | 'newsletter'
+  type: 'application' | 'newsletter' | 'landing'
 }
 
 export default function SuccessModal({ isOpen, onClose, type }: SuccessModalProps) {
+  // Track Lead event when modal opens
+  useEffect(() => {
+    if (isOpen && typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead')
+    }
+  }, [isOpen])
+
   // Escape key handler
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -40,6 +47,10 @@ export default function SuccessModal({ isOpen, onClose, type }: SuccessModalProp
     newsletter: {
       headline: "You're on the list!",
       message: "Thanks for subscribing! We'll be in touch with updates about the program and GenAI insights."
+    },
+    landing: {
+      headline: 'Thanks for your interest!',
+      message: "We'll get in touch with you soon to discuss how we can help you on your GenAI journey."
     }
   }
 

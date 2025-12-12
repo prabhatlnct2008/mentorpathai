@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import HeroSection from './components/sections/HeroSection'
 import WhySection from './components/sections/WhySection'
 import FormatSection from './components/sections/FormatSection'
@@ -129,10 +130,13 @@ export default function AgentLabPage() {
 
       {/* Footer */}
       <footer className="bg-background border-t border-border py-8">
-        <div className="max-w-[1100px] mx-auto px-6 text-center">
+        <div className="max-w-[1100px] mx-auto px-6 text-center space-y-2">
           <p className="text-text-muted text-sm">
-            © {new Date().getFullYear()} MentorPath AI. All rights reserved.
+            &copy; {new Date().getFullYear()} MentorPath AI. All rights reserved.
           </p>
+          <Link to="/privacy" className="text-primary hover:text-primary/80 transition-colors text-sm">
+            Privacy Policy
+          </Link>
         </div>
       </footer>
 

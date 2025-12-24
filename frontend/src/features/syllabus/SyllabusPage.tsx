@@ -619,9 +619,25 @@ export default function SyllabusPage() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-background rounded-xl p-6 border border-primary/30">
-              <h3 className="text-2xl font-bold text-text-main mb-2">₹29,000</h3>
-              <p className="text-text-muted mb-4">Standard 6-week 1:1 track fee</p>
+            <div className="bg-background rounded-xl p-6 border border-primary/30 relative overflow-hidden">
+              {/* Discount Badge */}
+              <div className="absolute -right-8 top-6 rotate-45 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold py-1 px-10 shadow-lg animate-pulse">
+                70% OFF
+              </div>
+
+              {/* Original Price - Strikethrough */}
+              <div className="flex items-center gap-3 mb-1">
+                <span className="text-lg text-text-muted line-through decoration-red-500 decoration-2">₹29,000</span>
+                <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">Save ₹20,300</span>
+              </div>
+
+              {/* Discounted Price */}
+              <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-2 animate-pulse">
+                ₹8,700
+              </h3>
+              <p className="text-text-muted mb-4">
+                <span className="text-green-400 font-medium">Limited Time Offer</span> · 6-week 1:1 track fee
+              </p>
               <ul className="space-y-2 text-sm text-text-muted">
                 <li className="flex items-center gap-2">
                   <Icons.Check />
@@ -644,7 +660,11 @@ export default function SyllabusPage() {
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm font-bold">1</div>
                   <div>
-                    <p className="font-medium text-text-main">20% Advance (₹5,800)</p>
+                    <p className="font-medium text-text-main flex items-center gap-2">
+                      20% Advance
+                      <span className="line-through text-text-muted text-sm">₹5,800</span>
+                      <span className="text-green-400 font-bold">₹1,740</span>
+                    </p>
                     <p className="text-sm text-text-muted">To confirm your slot</p>
                   </div>
                 </div>
@@ -658,7 +678,11 @@ export default function SyllabusPage() {
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center text-success text-sm font-bold">3</div>
                   <div>
-                    <p className="font-medium text-text-main">80% Remaining (₹23,200)</p>
+                    <p className="font-medium text-text-main flex items-center gap-2">
+                      80% Remaining
+                      <span className="line-through text-text-muted text-sm">₹23,200</span>
+                      <span className="text-green-400 font-bold">₹6,960</span>
+                    </p>
                     <p className="text-sm text-text-muted">Pay at start of Week 2 if you continue</p>
                   </div>
                 </div>

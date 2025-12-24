@@ -2,14 +2,6 @@ import { Routes, Route } from 'react-router-dom'
 import LandingPage from './features/landing/LandingPage'
 import AgentLabPage from './features/agent-lab/AgentLabPage'
 import SyllabusPage from './features/syllabus/SyllabusPage'
-
-function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/agent-systems-lab" element={<AgentLabPage />} />
-      <Route path="/syllabus" element={<SyllabusPage />} />
-    </Routes>
 import AdminLoginPage from './features/admin/AdminLoginPage'
 import AdminDashboardPage from './features/admin/AdminDashboardPage'
 import ProtectedRoute from './features/admin/ProtectedRoute'
@@ -22,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/agent-systems-lab" element={<AgentLabPage />} />
+        <Route path="/syllabus" element={<SyllabusPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/admin" element={<AdminLoginPage />} />
         <Route

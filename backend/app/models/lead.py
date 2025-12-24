@@ -11,7 +11,7 @@ class Lead(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
-    persona = Column(String, nullable=False)
+    persona = Column(String, default="unknown", nullable=False)
     source = Column(String, default="landing_chat", nullable=False)
     initial_interest = Column(String, nullable=True)
 

@@ -26,6 +26,15 @@ class Settings(BaseSettings):
     # Include Vercel preview URLs and localhost for development
     CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000,https://*.vercel.app"
 
+    # JWT Authentication
+    JWT_SECRET_KEY: str = "mentorpath-ai-secret-key-change-in-production"
+    JWT_ALGORITHM: str = "HS256"
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
+
+    # Default Admin Credentials (used for initial setup)
+    ADMIN_USERNAME: str = "admin"
+    ADMIN_PASSWORD: str = "Manchester#123@"
+
     @property
     def cors_origins_list(self) -> List[str]:
         """Parse CORS_ORIGINS into a list."""

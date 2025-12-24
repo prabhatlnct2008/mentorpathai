@@ -622,18 +622,18 @@ export default function SyllabusPage() {
             <div className="bg-background rounded-xl p-6 border border-primary/30 relative overflow-hidden">
               {/* Discount Badge */}
               <div className="absolute -right-8 top-6 rotate-45 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold py-1 px-10 shadow-lg animate-pulse">
-                40% OFF
+                54% OFF
               </div>
 
               {/* Original Price - Strikethrough */}
               <div className="flex items-center gap-3 mb-1">
                 <span className="text-lg text-text-muted line-through decoration-red-500 decoration-2">₹29,000</span>
-                <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">Save ₹11,600</span>
+                <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">Save ₹15,660</span>
               </div>
 
               {/* Discounted Price */}
               <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-2 animate-pulse">
-                ₹17,400
+                ₹13,340
               </h3>
               <p className="text-text-muted mb-4">
                 <span className="text-green-400 font-medium">Limited Time Offer</span> · 6-week 1:1 track fee
@@ -663,7 +663,7 @@ export default function SyllabusPage() {
                     <p className="font-medium text-text-main flex items-center gap-2">
                       20% Advance
                       <span className="line-through text-text-muted text-sm">₹5,800</span>
-                      <span className="text-green-400 font-bold">₹3,480</span>
+                      <span className="text-green-400 font-bold">₹2,668</span>
                     </p>
                     <p className="text-sm text-text-muted">To confirm your slot</p>
                   </div>
@@ -681,7 +681,7 @@ export default function SyllabusPage() {
                     <p className="font-medium text-text-main flex items-center gap-2">
                       80% Remaining
                       <span className="line-through text-text-muted text-sm">₹23,200</span>
-                      <span className="text-green-400 font-bold">₹13,920</span>
+                      <span className="text-green-400 font-bold">₹10,672</span>
                     </p>
                     <p className="text-sm text-text-muted">Pay at start of Week 2 if you continue</p>
                   </div>
